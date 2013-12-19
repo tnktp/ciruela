@@ -1,0 +1,11 @@
+.env
+.DS_Store
+node_modules/
+*.log
+*.tar.gz
+*.tgz
+build
+Procfile
+dump.rdb
+*.tmp
+*.sublime*

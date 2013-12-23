@@ -1,0 +1,12 @@
+{
+    "smtpOptions": {
+        "host": "smtp.gmail.com",
+        "secureConnection": "true",
+        "from": "maumercado@gmail.com",
+        "port": 465,
+        "auth": {
+            "user": "maumercado@gmail.com",
+            "pass": "RUNRs4t899vE9h"
+        }
+    }
+}

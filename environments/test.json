@@ -1,0 +1,6 @@
+{
+    "smtpOptions": {
+        "host": "host.com",
+        "from": "Selfie <hello@host.com>"
+    }
+}

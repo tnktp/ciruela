@@ -1,6 +1,9 @@
 {
+
+    "recipientList" : "example@host.com, foo@example.com, bar@example.com",
     "smtpOptions": {
         "host": "host.com",
         "from": "Selfie <hello@host.com>"
     }
+
 }

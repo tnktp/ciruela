@@ -42,6 +42,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // development only
 if ('development' == app.get('env')) {
   	app.use(express.errorHandler());
+  	config = require('environments/test.json');
+} else {
+	config = require('environments/production.json');
 }
 
 app.post('/', function(req, res) {
@@ -52,9 +55,22 @@ app.post('/', function(req, res) {
 
 	async.waterfall([
 			function (w_cb) {
-				fs.exists('tmp/' + target, function(exists) {
+				fs.exists(config.projectDir, function(exists) {
+					if (!exists) {
+						fs.mkdirSync(config.projectDir);
+						process.chdir(config.projectDir);
+						w_cb();
+					} else {
+						process.chdir(config.projectDir);
+						w_cb();
+					}
+				});
+			},
+
+			function (w_cb) {
+				fs.exists(target, function(exists) {
 			        if (exists) {
-						process.chdir('tmp/' + target);
+						process.chdir(target);
 						var cmd = 'git fetch && git reset --hard origin/' + branch + ' && npm install';
 						exec(cmd, function(error, stdout, stderr){
 							console.log("STDErr " + stderr)
@@ -63,7 +79,6 @@ app.post('/', function(req, res) {
 							w_cb(null, cmd);
 						});
 			        } else {
-			        	process.chdir('tmp/');
 			        	var cmd = 'git clone ' + targetUrl + '.git';
 			        	exec(cmd, function(error, stdout, stderr){
 							console.log("STDOUT 1: " + stdout);

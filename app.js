@@ -52,13 +52,13 @@ app.post('/', function(req, res) {
 
 	async.waterfall([
 			function (w_cb) {
-				fs.exists(config.projectDir, function(exists) {
+				fs.exists(config.projectDir + "", function(exists) {
 					if (!exists) {
-						fs.mkdirSync(config.projectDir);
-						process.chdir(config.projectDir);
+						fs.mkdirSync(config.projectDir + "");
+						process.chdir(config.projectDir + "");
 						w_cb();
 					} else {
-						process.chdir(config.projectDir);
+						process.chdir(config.projectDir + "");
 						w_cb();
 					}
 				});

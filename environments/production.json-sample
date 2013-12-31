@@ -1,5 +1,6 @@
 {
     "recipientList" : "example@host.com, foo@example.com, bar@example.com",
+    "projectsDir": "tmp",
     "smtpOptions": {
         "host": "walter.selfie.com",
         "from": "Selfie <hello@selfie.com>"

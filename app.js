@@ -29,20 +29,17 @@ app.use(stylus.middleware({
     }
 }));
 
-app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
   	app.use(express.errorHandler());
-  	config = require('environments/test.json');
+  	config = require('environments/development.json');
 } else {
 	config = require('environments/production.json');
 }

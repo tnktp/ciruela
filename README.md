@@ -16,25 +16,22 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
 
 # Installation
 
-1. Grab and run the source
+1. Clone the source and install deps
 
     git clone https://github.com/tnktp/ciruela.git  
     cd ciruela && npm install
 
 1. Configure your to & from email address and mail server
 
+    cp environments/production.json-sample environments/production.json  
     vi environments/production.json
 
 1. Run ciruela
 
-    node app.js
+    env NODE_ENV=production PORT=xxx node app.js
 
 1. Add the contents of .ssh/id_rsa.pub to the deploy keys on your repo. Alternatively, create a deploy key if you don't already have one and then add it under settings for your GitHub repo. For OpenSSH:
 
     ssh-keygen -t rsa -b 4096
 
 1. On GitHub, under your repo->Settings->Service Hooks, add your publically addressable URL (e.g. http://yourhost.yourdomain.com:3000) under WebHook URLs.
-
-# Notes
-
-1. The default port is 3000 but is configurable via the PORT environment varibale. e.g. *env PORT=xxx node app.js* will run ciruela on a different port.

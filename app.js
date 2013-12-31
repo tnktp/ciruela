@@ -52,9 +52,9 @@ app.post('/', function(req, res) {
 
 	async.waterfall([
 			function (w_cb) {
-				fs.exists('../' + target, function(exists) {
+				fs.exists('tmp/' + target, function(exists) {
 			        if (exists) {
-						process.chdir('../' + target);
+						process.chdir('tmp/' + target);
 						var cmd = 'git fetch && git reset --hard origin/' + branch + ' && npm install';
 						exec(cmd, function(error, stdout, stderr){
 							console.log("STDErr " + stderr)
@@ -63,7 +63,7 @@ app.post('/', function(req, res) {
 							w_cb(null, cmd);
 						});
 			        } else {
-			        	process.chdir('../');
+			        	process.chdir('tmp/');
 			        	var cmd = 'git clone ' + targetUrl + '.git';
 			        	exec(cmd, function(error, stdout, stderr){
 							console.log("STDOUT 1: " + stdout);

@@ -7,12 +7,14 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
 1. A Node.JS repo hosted on GitHub using Mocha
 1. A Mocha test configuration called "test-ciruela". ciruela will call *make test-ciruela*, e.g.:  
 
+```
     test-ciruela:  
         @NODE_ENV=test ./node_modules/.bin/mocha \  
                 --ui bdd \  
                 --timeout 5s \  
                 --reporter json \  
                 $(TESTS)
+```
 
 # Installation
 

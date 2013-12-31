@@ -7,21 +7,21 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
 1. A Node.JS repo hosted on GitHub using Mocha
 1. A Mocha test configuration called "test-ciruela". ciruela will call *make test-ciruela*, e.g.:  
 
-    test-ciruela:
-        @NODE_ENV=test ./node_modules/.bin/mocha \
-                --ui bdd \
-                --timeout 5s \
-                --reporter json \
+    test-ciruela:  
+        @NODE_ENV=test ./node_modules/.bin/mocha \  
+                --ui bdd \  
+                --timeout 5s \  
+                --reporter json \  
                 $(TESTS)
 
-# Installation is a snap
+# Installation
 
 1. Grab and run the source
 
-    git clone https://github.com/tnktp/ciruela.git
+    git clone https://github.com/tnktp/ciruela.git  
     cd ciruela && npm install
 
-1. Configure where you want emails to go
+1. Configure your to & from email address and mail server
 
     vi environments/production.json
 
@@ -33,7 +33,7 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
 
     ssh-keygen -t rsa -b 4096
 
-1. On GitHub, under your repo->Settings->Service Hooks, add your publically addressable URL (e.g. http://machine.yourdomain.com:3000) under WebHook URLs.
+1. On GitHub, under your repo->Settings->Service Hooks, add your publically addressable URL (e.g. http://yourhost.yourdomain.com:3000) under WebHook URLs.
 
 # Notes
 

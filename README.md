@@ -27,23 +27,39 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
     cd ciruela && npm install
 ```
 
-1. Configure your to & from email address and mail server
+2. Configure your to & from email address and mail server
 
 ```
     cp environments/production.json-sample environments/production.json  
     vi environments/production.json
 ```
 
-1. Run ciruela
+3. Run ciruela
 
 ```
     env NODE_ENV=production PORT=xxx node app.js
 ```
 
-1. Add the contents of .ssh/id_rsa.pub to the deploy keys on your repo. Alternatively, create a deploy key if you don't already have one and then add it under settings for your GitHub repo. For OpenSSH:
+4. Add the contents of .ssh/id_rsa.pub to the deploy keys on your repo. Alternatively, create a deploy key if you don't already have one and then add it under settings for your GitHub repo. For OpenSSH:
 
 ```
     ssh-keygen -t rsa -b 4096
 ```
 
-1. On GitHub, under your repo->Settings->Service Hooks, add your publically addressable URL (e.g. http://yourhost.yourdomain.com:3000) under WebHook URLs.
+Make sure that you've cloned your repository using ssh at least once from the account which will be running ciruela. You'll need to accept GitHub's host key the first time you connect using this method.
+
+```
+$ git clone git@github.com:yourAccount/yourRepo.git
+Cloning into 'yourRepo'...
+The authenticity of host 'github.com (192.30.252.131)' can't be established.
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,192.30.252.131' (RSA) to the list of known hosts.
+remote: Counting objects: 8221, done.
+remote: Compressing objects: 100% (2006/2006), done.
+remote: Total 8221 (delta 5488), reused 8209 (delta 5478)
+Receiving objects: 100% (8221/8221), 33.60 MiB | 7.63 MiB/s, done.
+Resolving deltas: 100% (5488/5488), done.
+```
+
+5. On GitHub, under your repo->Settings->Service Hooks, add your publically addressable URL (e.g. http://yourhost.yourdomain.com:3000) under WebHook URLs.

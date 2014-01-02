@@ -5,6 +5,8 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
 
 # Requirements
 1. A Node.JS repo hosted on GitHub using Mocha
+1. Git CLI tools in your path
+1. A recent version of node (tested on v0.10.20+)
 1. A Mocha test configuration called "test-ciruela". ciruela will call *make test-ciruela*, e.g.:  
 
 ```

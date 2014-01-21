@@ -1,6 +1,9 @@
 {
     "recipientList" : "example@host.com, foo@example.com, bar@example.com",
-    "projectsDir": "tmp",
+    "mongo": {
+    	"port": "28017",
+    	"host": "localhost"
+    },
     "smtpOptions": {
         "host": "localhost",
         "from": "Test Runner <runner@yourdomain.com>"

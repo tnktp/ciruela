@@ -18,8 +18,8 @@
 			<div style="padding: 20px;background: #f1f1f1;border-radius: 0 0 10px 10px;">
 				<h2 style="font-size: 16px;margin-top: 0;">Commit Detail</h2>
 				<ul style="list-style-type: none;margin: 0;padding: 0;">
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Status:</h3><span style="color: #555;">Success</span></li>
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Repository:</h3><span style="color: #555;"><a href='<%= repoUrl %>' style="color: #0b9">org/<%= repoName %></a></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Status:</h3><span style="color: #555;"><%= testStatus %></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Repository:</h3><span style="color: #555;"><a href='<%= repoUrl %>' style="color: #0b9"><%= organization %>/<%= repoName %></a></span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Commit:</h3><span style="color: #555;"><a href='<%= commit.url %>' style="color: #0b9"><%= commit.id %></a></span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Author:</h3><span style="color: #555;"><%= commit.author.name %> <a href="mailto:<%= commit.author.email %>" style="color: #0b9"><%= commit.author.email %></a></span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Log:</h3><span style="color: #555;"><%= commit.message %></span></li>

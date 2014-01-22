@@ -47,14 +47,16 @@ app.post('/', function(req, res) {
 	var branch = data.ref.split('/')[2];
     var repoUrl = data.repository.url;
 	var repoName = data.repository.name;
+    var organization = data.repository.organization;
 	var name = process.cwd() + '/tmp/' + data.repository.name;
-	var targetUrl = 'git@github.com:' + data.repository.organization + '/' + data.repository.name
+	var targetUrl = 'git@github.com:' + organization + '/' + repoName;
 	var lastCommitInfo = data.commits[data.commits.length - 1];
 	
 	target = {	
 				'branch': branch,
 				'url': targetUrl,
 				'name': name,
+                'organization': organization,
                 'repoUrl': repoUrl,
                 'repoName': repoName,
 				'commit': lastCommitInfo,

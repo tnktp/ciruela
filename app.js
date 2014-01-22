@@ -44,6 +44,7 @@ if ('development' == app.get('env')) {
 app.post('/', function(req, res) {
 	var data = JSON.parse(req.body.payload)
 	var branch = data.ref.split('/')[2];
+    var repoUrl = data.repository.url;
 	var repoName = data.repository.name;
 	var name = process.cwd() + '/tmp/' + data.repository.name;
 	var targetUrl = 'git@github.com:' + data.repository.organization + '/' + data.repository.name
@@ -52,7 +53,8 @@ app.post('/', function(req, res) {
 	target = {	'branch': branch,
 				'url': targetUrl,
 				'name': name,
-				'repoName': repoName,
+                'repoUrl': repoUrl,
+                'repoName': repoName,
 				'commit': lastCommitInfo,
 				'projectRoot': process.cwd()
 			};

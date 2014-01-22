@@ -17,20 +17,23 @@
                                     <tr>
                                         <td valign="top" mc:edit="body_content00" class="bodyContent">
                                             <h1>Build Result</h1>
-                                            <li>passes: <%= passes %></li>
+                                            <p><b>Project: </b> <%= repoName %> --- <b>Branch: </b><%= branch %></p>
+                                            <li><b>Number of Tests:</b> <%= totalTests %></li>
+                                            <li><b>Tests Duration:</b> <%= duration %> ms</li>
+                                            <li><b>Tests Passes:</b> <%= passes %></li>
                                             <% if (pending > 0) { %>
-                                                <li>pending: <%= pending %></li>
+                                                <li><b>Tests Pending:</b> <%= pending %></li>
                                             <% } %>
                                             <% if (failures > 0) { %>
-                                                <li>failures: <%= failures %></li>
+                                                <li><b>Tests Failures:</b> <%= failures %></li>
                                                 <h1>Failures</h1>
                                                 <%= failureTitles %>
                                             <% } %> <br />
 
                                             <h1>Commit Detail</h1>
-                                            <li>Commit: <a href='<%= commit.url %>'><%= commit.id %></a></li>
-                                            <li>Author: <%= commit.author.name %> <%= commit.author.email %></li>
-                                            <li>Log: <%= commit.message %></li>
+                                            <li><b>Commit:</b> <a href='<%= commit.url %>'><%= commit.id %></a></li>
+                                            <li><b>Author:</b> <%= commit.author.name %> <%= commit.author.email %></li>
+                                            <li><b>Log:</b> <%= commit.message %></li>
                                         </td>
                                     </tr>
                                 </tbody>

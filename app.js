@@ -9,6 +9,7 @@ var http = require('http');
 var path = require('path');
 var stylus = require('stylus');
 var runner = require('lib/runner');
+var jobs = require('lib/jobs');
 
 var app = express();
 
@@ -49,7 +50,8 @@ app.post('/', function(req, res) {
 	var targetUrl = 'git@github.com:' + data.repository.organization + '/' + data.repository.name
 	var lastCommitInfo = data.commits[data.commits.length - 1];
 	
-	target = {	'branch': branch,
+	target = {	
+				'branch': branch,
 				'url': targetUrl,
 				'name': name,
 				'repoName': repoName,
@@ -57,9 +59,11 @@ app.post('/', function(req, res) {
 				'projectRoot': process.cwd()
 			};
 
-	runner.build(target);
-	res.send(200);
 
+	jobs.addJob(target, function (job) {
+		runner.build(target);
+		res.json(200, job);
+	});
 });
 
 

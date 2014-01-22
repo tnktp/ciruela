@@ -33,6 +33,7 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use("/reports", express.static(path.join(__dirname, 'reports')));
 
 // development only
 if ('development' == app.get('env')) {
@@ -43,14 +44,15 @@ if ('development' == app.get('env')) {
 }
 
 app.post('/', function(req, res) {
-	var data = JSON.parse(req.body.payload)
-	var branch = data.ref.split('/')[2];
-    var repoUrl = data.repository.url;
-	var repoName = data.repository.name;
-    var organization = data.repository.organization;
-	var name = process.cwd() + '/tmp/' + data.repository.name;
-	var targetUrl = 'git@github.com:' + organization + '/' + repoName;
-	var lastCommitInfo = data.commits[data.commits.length - 1];
+	data = JSON.parse(req.body.payload)
+	branch = data.ref.split('/')[2];
+    repoUrl = data.repository.url;
+	repoName = data.repository.name;
+    organization = data.repository.organization;
+	name = process.cwd() + '/tmp/' + data.repository.name;
+	targetUrl = 'git@github.com:' + organization + '/' + repoName;
+	lastCommitInfo = data.commits[data.commits.length - 1];
+	report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '.html';
 	
 	target = {	
 				'branch': branch,
@@ -60,7 +62,8 @@ app.post('/', function(req, res) {
                 'repoUrl': repoUrl,
                 'repoName': repoName,
 				'commit': lastCommitInfo,
-				'projectRoot': process.cwd()
+				'projectRoot': process.cwd(),
+				'report': report
 			};
 
 

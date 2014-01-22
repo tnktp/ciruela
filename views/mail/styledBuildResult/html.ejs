@@ -23,6 +23,7 @@
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Commit:</h3><span style="color: #555;"><a href='<%= commit.url %>' style="color: #0b9"><%= commit.id %></a></span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Author:</h3><span style="color: #555;"><%= commit.author.name %> <a href="mailto:<%= commit.author.email %>" style="color: #0b9"><%= commit.author.email %></a></span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Log:</h3><span style="color: #555;"><%= commit.message %></span></li>
+					<li><a href='<%= report %>' style="color: #0b9"><b>Click here to see the tests coverage</b></a></span></li>
 				</ul>
 			</div>
 		</div>

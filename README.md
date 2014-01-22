@@ -17,6 +17,21 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
                 --reporter json \  
                 $(TESTS)
 ```
+1. A Mocha test configuration called "test-cov". ciruela will call *make test-cov*, to build the coverage file e.g.: 
+
+```
+    test-cov: clean api-cov
+        @NODE_ENV=test HTMLCOV=1 ./node_modules/.bin/mocha $(TESTS) --reporter html-cov > $(HTML_FILE)
+        rm -fr api-cov
+
+    api-cov:
+        jscoverage api api-cov
+     
+    clean:
+        rm -f test/reports/*
+        rm -fr api-cov
+
+```
 
 # Installation
 
@@ -25,6 +40,7 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
 ```
     git clone https://github.com/tnktp/ciruela.git  
     cd ciruela && npm install
+    sudo apt-get install jscoverage Or brew install jscoverage
 ```
 
 2. Configure your to & from email address and mail server

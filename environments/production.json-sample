@@ -1,5 +1,5 @@
 {
-    "emailTemplateDir": "buildResult",
+    "emailTemplateDir": "buildResult"
     "recipientList" : "example@host.com, foo@example.com, bar@example.com",
     
     "server": {

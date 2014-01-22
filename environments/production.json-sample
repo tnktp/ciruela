@@ -3,7 +3,7 @@
     "recipientList" : "example@host.com, foo@example.com, bar@example.com",
     
     "server": {
-    	"root": "www.domain.com", 
+    	"root": "http://www.domain.com", 
     	"port":"80"
     },
     

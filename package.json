@@ -16,7 +16,8 @@
         "nodemailer": "~0.5.15",
         "email-templates": "~0.1.1",
         "mongodb": "~1.2.7",
-        "async": "*"
+        "async": "*",
+        "shell-escape": "*"
     },
 
     "devDependencies": {

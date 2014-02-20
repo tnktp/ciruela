@@ -1,0 +1,41 @@
+<% include head %>
+<div class="container">
+  	<div class="jumbotron">
+        <h1><a href="/"><%= title %></a></h1>
+        <% if (projectName) { %>	
+			<p class="lead">Jobs ran for project <a href="/projects/<%= projectName %>">"<%= projectName %>"</a> for branch <a href="/projects/<%= projectName %>/<%= branchName %>">"<%= branchName %>"</a></p>
+		<% } %>
+
+        <p class="lead"></p>
+     </div>
+    
+    <div class="row">
+		<% if (results && results.length > 0) { %>	
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Job Id</th>
+						<th>Job Date</th>
+						<th>Branch</th>
+						<th>Duration</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+			<% results.forEach(function(result){ %>
+				<tbody>
+					<tr>
+						<td><a href="/job/<%=result._id%>"><%= result._id %></a></td>
+						<td><a href="/job/<%=result._id%>"><%= new Date(result.finishedTime) %></a></td>
+						<td><a href="/projects/<%=projectName%>/<%=result.branch%>"><%= result.branch %></a></td>
+						<td><%= result.duration %> ms</td>
+						<% if (result.failed) { %> <td><span class="glyphicon glyphicon-remove"></span></td> <% } else { %> <td><span class="glyphicon glyphicon-ok"></span></td> <% } %>
+					</tr>
+				</tbody>
+			<% }) %>
+			</table>
+		<% } else { %> 
+			<h2>No jobs found for "<%=projectName%>" under branch "<%=branchName%>"</h2> 
+		<% } %>
+    </div>
+</div>
+<% include foot %>

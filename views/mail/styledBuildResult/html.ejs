@@ -8,24 +8,24 @@
         <div style="width: 600px;margin: 40px auto;">
 			<div style="padding: 20px;background: #F3F7FA;border-radius: 10px 10px 0 0;">
 				<h2 style="margin-top: 0;font-size: 16px;font-family: ‘Lucida Console’, Monaco, monospace;">Build Detail</h2>
-				<img alt="build chart" src="https://chart.googleapis.com/chart?cht=p&chd=t:<%= failures %>,<%= pending %>,<%= passes %>&chs=200x200&chco=F38630|E0E4CC|69D2E7&chp=-1.5&chf=bg,s,F3F7FA" style="width: 200px;height: 200px;display: inline-block;">
+				<img alt="build chart" src="https://chart.googleapis.com/chart?cht=p&chd=t:<%= buildResult.failures %>,<%= buildResult.pending %>,<%= buildResult.passes %>&chs=200x200&chco=F38630|E0E4CC|69D2E7&chp=-1.5&chf=bg,s,F3F7FA" style="width: 200px;height: 200px;display: inline-block;">
 				<ul style="list-style-type: none;margin-left: 50px;margin-bottom: 30px;padding: 0;display: inline-block;">
-					<li style="margin: 20px 0;height: 20px;"><div style="width: 20px;height: 20px;background: #69D2E7;float: left;margin-right: 10px;"></div><span style="height: 20px;vertical-align: middle;display: table-cell;"><%= passes %> Passes</span></li>
-					<li style="margin: 20px 0;height: 20px;"><div style="width: 20px;height: 20px;background: #F38630;float: left;margin-right: 10px;"></div><span style="height: 20px;vertical-align: middle;display: table-cell;"><%= failures %> Failures</span></li>
-					<li style="margin: 20px 0;height: 20px;"><div style="width: 20px;height: 20px;background: #E0E4CC;float: left;margin-right: 10px;"></div><span style="height: 20px;vertical-align: middle;display: table-cell;"><%= pending %> Pending</span></li>
+					<li style="margin: 20px 0;height: 20px;"><div style="width: 20px;height: 20px;background: #69D2E7;float: left;margin-right: 10px;"></div><span style="height: 20px;vertical-align: middle;display: table-cell;"><%= buildResult.passes %> Passes</span></li>
+					<li style="margin: 20px 0;height: 20px;"><div style="width: 20px;height: 20px;background: #F38630;float: left;margin-right: 10px;"></div><span style="height: 20px;vertical-align: middle;display: table-cell;"><%= buildResult.failures %> Failures</span></li>
+					<li style="margin: 20px 0;height: 20px;"><div style="width: 20px;height: 20px;background: #E0E4CC;float: left;margin-right: 10px;"></div><span style="height: 20px;vertical-align: middle;display: table-cell;"><%= buildResult.pending %> Pending</span></li>
 				</ul>
 			</div>
 			<div style="padding: 20px;background: #f1f1f1;border-radius: 0 0 10px 10px;">
 				<h2 style="font-size: 16px;margin-top: 0;">Commit Detail</h2>
 				<ul style="list-style-type: none;margin: 0;padding: 0;">
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Status:</h3><span style="color: #555;"><%= testStatus %></span></li>
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Repository:</h3><span style="color: #555;"><a href='<%= repoUrl %>' style="color: #0b9"><%= organization %>/<%= repoName %></a></span></li>
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Branch:</h3><span style="color: #555;"><a href='<%= repoUrl %>' style="color: #0b9"><%= branch %></a></span></li>
-					<li><h3 style="display: inline-block;width: 150px;color: #555;"><% if (decrease) { %> Decreased <% } else { %> Increased <% } %> build time by:</h3><span style="color: #555;"><%= decreasePercentage %>%</span></li>
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Commit:</h3><span style="color: #555;"><a href='<%= commit.url %>' style="color: #0b9"><%= commit.id %></a></span></li>
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Author:</h3><span style="color: #555;"><%= commit.author.name %> <a href="mailto:<%= commit.author.email %>" style="color: #0b9"><%= commit.author.email %></a></span></li>
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Log:</h3><span style="color: #555;"><%= commit.message %></span></li>
-					<li><a href='<%= report %>' style="color: #0b9"><b>Click here to see the tests coverage</b></a></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Status:</h3><span style="color: #555;"><%= buildResult.testStatus %></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Repository:</h3><span style="color: #555;"><a href='<%= buildResult.repoUrl %>' style="color: #0b9"><%= buildResult.organization %>/<%= buildResult.repoName %></a></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Branch:</h3><span style="color: #555;"><a href='<%= buildResult.repoUrl %>' style="color: #0b9"><%= buildResult.branch %></a></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;"><% if (buildResult.decrease) { %> Decreased <% } else { %> Increased <% } %> build time by:</h3><span style="color: #555;"><%= buildResult.decreasePercentage %>%</span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Commit:</h3><span style="color: #555;"><a href='<%= buildResult.commit.url %>' style="color: #0b9"><%= buildResult.commit.id %></a></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Author:</h3><span style="color: #555;"><%= buildResultcommit.author.name %> <a href="mailto:<%= buildResult.commit.author.email %>" style="color: #0b9"><%= buildResult.commit.author.email %></a></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Log:</h3><span style="color: #555;"><%= buildResult.commit.message %></span></li>
+					<li><a href='<%= buildResult.report %>' style="color: #0b9"><b>Click here to see the tests coverage</b></a></span></li>
 				</ul>
 			</div>
 		</div>

@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<% include head %>
+<div class="container">
+  	<div class="jumbotron">
+        <h1><a href="/"><%= title %></a></h1>
+        <p class="lead"></p>
+    </div>
+    
+    <div class="row">
+    	<ul class="list-group"> 
+		<% if (results && results.length > 0) { %>	
+			<% results.forEach(function(result){ %>
+				<a href="/projects/<%= result %>"><li class="list-group-item"><h3><%= result %></h3></li></a>
+			<% }) %>
+		<% } else { %> <h1> No projects found! </h1> <% } %>
+		</ul>
+    </div>
+</div>
+<% include foot %>

@@ -1,0 +1,139 @@
+<% include head %>
+<div class="container">
+  	<div class="jumbotron">
+        <h1><a href="/"><%= title %></a></h1>
+        <% if (job.project) { %>	
+			<p class="lead">Job ran for project <a href="/projects/<%=job.project%>">"<%=job.project%>"</a> for branch <a href="/projects/<%=job.project%>/<%=job.branch%>">"<%=job.branch%>"</a> </p>
+		<% } %>
+
+        <p class="lead"></p>
+     </div>
+    
+    	
+	<% if (job) { %>	
+		<div class="row">
+
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Job Id</th>
+						<th>Job Date</th>
+						<th>Branch</th>
+						<th>Duration</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+			
+				<tbody>
+					<tr>
+						<td><a href="/job/<%=job._id%>"> <%= job._id %></a></td>
+						<td><a href="/job/<%=job._id%>"> <%= new Date(job.finishedTime) %></a></td>
+						<td><a href="/projects/<%=job.project%>/<%=job.branch%>"><%= job.branch %></a></td>
+						<td><%= job.duration %> ms</td>
+						<% if (job.failed) { %> <td><span class="glyphicon glyphicon-remove"></span></td> <% } else { %> <td><span class="glyphicon glyphicon-ok"></span></td> <% } %>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+
+		<% if(!job.failed && job.log && job.log.passes && job.log.passes.length > 0 && comparison) {%>
+			
+			<div class="row">
+				<div class="col-md-2"><h3>Job Comparison</h3></div>
+				<div class="col-md-8">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Test Description</th>
+								<th>Previous Time</th>
+								<th>Current Time</th>
+							</tr>
+						</thead>
+						<tbody>
+						<% comparisonKeys.forEach(function(pass){ %>
+							
+							<% if (comparison[pass].prevTest && comparison[pass].prevTest.duration) {%>
+								<% if (comparison[pass].prevTest.duration < comparison[pass].currentTime) {%>
+									<tr class="danger">
+								<%} else {%>
+									<tr class="success">	
+								<%} %>
+									<td><%= pass %></a></td>
+									<td><%= comparison[pass].prevTest.duration %> ms</td>
+									<td><%= comparison[pass].currentTime %> ms</td>
+								</tr>
+							<%} %>					
+						<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-2"></div>
+			</div>
+		<%} %>
+
+		
+		<% if(job.log && job.log.passes && job.log.passes.length > 0) {%>
+			<div class="row">
+				<div class="col-md-3"><h3>Job Passes</h3></div>
+				<div class="col-md-6">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Test Description</th>
+								<th>Duration</th>
+							</tr>
+						</thead>
+						<tbody>
+						<% (job.log.passes).forEach(function(pass){ %>
+							<tr>
+								<td><%= pass.fullTitle %></a></td>
+								<td><%= pass.duration %> ms</td>
+							</tr>					
+						<% }) %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-3"></div>
+			</div>
+		<%} %>
+
+		<% if(job.log && job.log.failures && job.log.failures.length > 0) {%>
+			<div class="row">
+				<div class="col-md-3"><h3>Job Failures</h3></div>
+				<div class="col-md-6">
+					<ul class="list-group">
+					<% (job.log.failures).forEach(function(fail){ %>
+							<li class="list-group-item"><%= fail.fullTitle %></li>
+					<% }) %>
+					</ul>
+				</div>
+				<div class="col-md-3"></div>
+			</div>
+		<%} %>
+
+	<% } else { %> 
+		<div class="row">
+			<h2>No job found</h2>
+		</div> 
+	<% } %>
+    
+</div>
+<% include foot %>
+
+
+<!-- project: 'selfie-api',
+    branch: 'develop',
+    addedTime: 1392839146951,
+    log:
+     { stats: [Object],
+       tests: [Object],
+       failures: [],
+       passes: [Object] },
+    duration: 20071,
+    running: false,
+    finished: true,
+    _id: 530509ea38f057797e000001,
+    startedTime: 1392839146965,
+    failed: false,
+    finishedTime: 1392839223517 }, -->

@@ -43,6 +43,14 @@ if ('development' == app.get('env')) {
 	config = require('environments/production.json');
 }
 
+app.get('/', routes.index);
+
+app.get('/job/:jobId', routes.getJob);
+
+app.get('/projects/:projectName', routes.projectJobs);
+
+app.get('/projects/:projectName/:branchName', routes.projectJobsbyBranch);
+
 app.post('/', function(req, res) {
 	data = JSON.parse(req.body.payload)
 	branch = data.ref.split('/')[2];

@@ -49,14 +49,12 @@ exports.getJob = function(req, res){
 					if (prevJob && prevJob.log && prevJob.log.passes.length > 0) {
 						comparison = {};
 						async.eachSeries(job.log.passes, function (jobPass, each_cb){
-							console.log(jobPass);
 							comparison[jobPass.fullTitle] = {};
 							comparison[jobPass.fullTitle]['currentTime'] = jobPass.duration;
 							comparison[jobPass.fullTitle]['prevTest'] = _.find(prevJob.log.passes, function (prevPass) {return prevPass.fullTitle == jobPass.fullTitle});
 							each_cb();
 						}, function (err){
 							if (err) console.log(err);
-							console.log(comparison);
 							res.render('job', { title: 'Ciruela', job: job, comparison: comparison, comparisonKeys: Object.keys(comparison)});
 						});
 					} else {

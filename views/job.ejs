@@ -72,6 +72,19 @@
 			</div>
 		<%} %>
 
+		<% if(job.log && job.log.failures && job.log.failures.length > 0) {%>
+			<div class="row">
+				<div class="col-md-3"><h3>Job Failures</h3></div>
+				<div class="col-md-6">
+					<ul class="list-group">
+					<% (job.log.failures).forEach(function(fail){ %>
+							<li class="list-group-item danger"><%= fail.fullTitle %></li>
+					<% }) %>
+					</ul>
+				</div>
+				<div class="col-md-3"></div>
+			</div>
+		<%} %>
 		
 		<% if(job.log && job.log.passes && job.log.passes.length > 0) {%>
 			<div class="row">
@@ -93,20 +106,6 @@
 						<% }) %>
 						</tbody>
 					</table>
-				</div>
-				<div class="col-md-3"></div>
-			</div>
-		<%} %>
-
-		<% if(job.log && job.log.failures && job.log.failures.length > 0) {%>
-			<div class="row">
-				<div class="col-md-3"><h3>Job Failures</h3></div>
-				<div class="col-md-6">
-					<ul class="list-group">
-					<% (job.log.failures).forEach(function(fail){ %>
-							<li class="list-group-item"><%= fail.fullTitle %></li>
-					<% }) %>
-					</ul>
 				</div>
 				<div class="col-md-3"></div>
 			</div>

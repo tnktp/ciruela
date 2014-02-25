@@ -23,7 +23,7 @@
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Branch:</h3><span style="color: #555;"><a href='<%= buildResult.repoUrl %>' style="color: #0b9"><%= buildResult.branch %></a></span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;"><% if (buildResult.decrease) { %> Decreased <% } else { %> Increased <% } %> build time by:</h3><span style="color: #555;"><%= buildResult.decreasePercentage %>%</span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Commit:</h3><span style="color: #555;"><a href='<%= buildResult.commit.url %>' style="color: #0b9"><%= buildResult.commit.id %></a></span></li>
-					<li><h3 style="display: inline-block;width: 150px;color: #555;">Author:</h3><span style="color: #555;"><%= buildResultcommit.author.name %> <a href="mailto:<%= buildResult.commit.author.email %>" style="color: #0b9"><%= buildResult.commit.author.email %></a></span></li>
+					<li><h3 style="display: inline-block;width: 150px;color: #555;">Author:</h3><span style="color: #555;"><%= buildResult.commit.author.name %> <a href="mailto:<%= buildResult.commit.author.email %>" style="color: #0b9"><%= buildResult.commit.author.email %></a></span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Log:</h3><span style="color: #555;"><%= buildResult.commit.message %></span></li>
 					<li><a href='<%= buildResult.report %>' style="color: #0b9"><b>Click here to see the tests coverage</b></a></span></li>
 				</ul>

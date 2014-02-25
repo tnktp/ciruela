@@ -43,6 +43,7 @@ exports.getJob = function(req, res){
 		if (job instanceof String) {
 			job = null;
 			prevJob = null;
+			res.render('job', { title: 'Ciruela', job: job, comparison: null, comparisonKeys: null});
 		} else {
 			if (!job.failed && (job.log.passes).length > 0) {
 				jobs.getPreviousJob(job, function (prevJob){

@@ -34,6 +34,12 @@
                                             <li><b>Author:</b> <%= commit.author.name %> <%= commit.author.email %></li>
                                             <li><b>Log:</b> <%= commit.message %></li>
                                             <li><a href='<%= report %>'><b>See Coverage Here!</b> </a></li>
+                                            <li>
+                                                <h2>JSHint</h2>
+                                                <p>
+                                                    <%= lint %>
+                                                </p>
+                                            </li>
                                         </td>
                                     </tr>
                                 </tbody>

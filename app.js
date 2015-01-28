@@ -74,7 +74,7 @@ app.post('/', function(req, res) {
 				'report': report
 			};
 
-
+	console.log("Adding Job");
 	jobs.addJob(target, function (job) {
 		runner.build(target);
 		res.json(200, job);

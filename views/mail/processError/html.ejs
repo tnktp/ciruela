@@ -41,9 +41,42 @@
 
             <div style="padding: 20px;background: #f1f1f1;border-radius: 0 0 10px 10px;">
                 <h2 style="font-size: 16px;margin-top: 0;">JSHint</h2>
-                <p style="list-style-type: none;margin: 0;padding: 0;">
-                    <%- lint %>
-                </p>
+                <table style="margin: 0;padding: 0;border-collapse: collapse;border: 1px #000 solid;">
+                    <thead>
+                        <tr style="border: 1px; border-bottom: 1px #000 solid;">
+                            <th style="border-right: 1px #000 solid;">
+                                File
+                            </th>
+                            <th style="border-right: 1px #000 solid;">
+                                Line
+                            </th>
+                            <th style="border-right: 1px #000 solid;">
+                                Col
+                            </th>
+                            <th style="border-right: 1px #000 solid;">
+                                Reason
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% lint.forEach(function(error){ %>
+                            <tr style="border-bottom: 1px #000 solid;">
+                                <td style="border-right: 1px #000 solid;">
+                                    <%= error.file %>
+                                </td>
+                                <td style="border-right: 1px #000 solid;">
+                                    <%= error.error.line %>
+                                </td>
+                                <td style="border-right: 1px #000 solid;">
+                                    <%= error.error.character %>
+                                </td>
+                                <td style="border-right: 1px #000 solid;">
+                                    <%= error.error.reason %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
             </div>
         </div>
     </body>

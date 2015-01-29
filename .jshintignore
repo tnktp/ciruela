@@ -1,0 +1,9 @@
+**/**/uploads/*
+**/**/templates/*
+**/**/selfie_keys/*
+**/**/node_modules/*
+**/**/api-cov/*
+**/**/logs/*
+**/**/newrelic_agent.log
+**/**/Makefile
+**/**/Readme.md

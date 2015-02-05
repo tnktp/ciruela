@@ -1,17 +1,17 @@
 {
-    "emailTemplateDir": "buildResult"
+    "emailTemplateDir": "buildResult",
     "recipientList" : "example@host.com, foo@example.com, bar@example.com",
-    
+
     "server": {
-    	"root": "http://www.domain.com", 
-    	"port":"80"
+        "root": "http://www.domain.com",
+        "port":"80"
     },
-    
+
     "mongo": {
-    	"port": "27017",
-    	"host": "localhost"
+        "port": "27017",
+        "host": "localhost"
     },
-    
+
     "smtpOptions": {
         "host": "localhost",
         "from": "Test Runner <runner@yourdomain.com>"

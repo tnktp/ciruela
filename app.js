@@ -19,9 +19,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(stylus.middleware({
-	debug: false,
-	src: __dirname + '/views',
-	dest: __dirname + '/public',
+    debug: false,
+    src: __dirname + '/views',
+    dest: __dirname + '/public',
     compile: function(str) {
         return stylus(str).set('compress', true);
     }
@@ -37,10 +37,10 @@ app.use("/reports", express.static(path.join(__dirname, 'reports')));
 
 // development only
 if ('development' == app.get('env')) {
-  	app.use(express.errorHandler());
-  	config = require('environments/development.json');
+    app.use(express.errorHandler());
+    config = require('environments/development.json');
 } else {
-	config = require('environments/' + app.get('env') + '.json');
+    config = require('environments/' + app.get('env') + '.json');
 }
 
 app.get('/', routes.index);
@@ -52,36 +52,38 @@ app.get('/projects/:projectName', routes.projectJobs);
 app.get('/projects/:projectName/:branchName', routes.projectJobsbyBranch);
 
 app.post('/', function(req, res) {
-	data = JSON.parse(req.body.payload)
-	branch = data.ref.split('/')[2];
+    var data;
+    if (req.body.payload) data = JSON.parse(req.body.payload);
+    data = data || req.body;
+    branch = data.ref.split('/')[2];
     repoUrl = data.repository.url;
-	repoName = data.repository.name;
+    repoName = data.repository.name;
     organization = data.repository.organization;
-	name = process.cwd() + '/tmp/' + data.repository.name;
-	targetUrl = 'git@github.com:' + organization + '/' + repoName;
-	lastCommitInfo = data.commits[data.commits.length - 1];
-	report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '.html';
-	
-	target = {	
-				'branch': branch,
-				'url': targetUrl,
-				'name': name,
-                'organization': organization,
-                'repoUrl': repoUrl,
-                'repoName': repoName,
-				'commit': lastCommitInfo,
-				'projectRoot': process.cwd(),
-				'report': report
-			};
+    name = process.cwd() + '/tmp/' + data.repository.name;
+    targetUrl = 'git@github.com:' + organization + '/' + repoName;
+    lastCommitInfo = data.commits[data.commits.length - 1];
+    report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '.html';
 
-	console.log("Adding Job");
-	jobs.addJob(target, function (job) {
-		runner.build(target);
-		res.json(200, job);
-	});
+    target = {
+        'branch': branch,
+        'url': targetUrl,
+        'name': name,
+        'organization': organization,
+        'repoUrl': repoUrl,
+        'repoName': repoName,
+        'commit': lastCommitInfo,
+        'projectRoot': process.cwd(),
+        'report': report
+    };
+
+    console.log("Adding Job");
+    jobs.addJob(target, function(job) {
+        runner.build(target);
+        res.json(200, job);
+    });
 });
 
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('ciruela server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function() {
+    console.log('ciruela server listening on port ' + app.get('port'));
 });

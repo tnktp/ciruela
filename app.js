@@ -36,11 +36,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/reports", express.static(path.join(__dirname, 'reports')));
 
 // development only
+console.log(app.get('env'));
 if ('development' == app.get('env')) {
   	app.use(express.errorHandler());
   	config = require('environments/development.json');
 } else {
-	config = require('environments/production.json');
+	config = require('environments/' + app.get('env') + '.json');
 }
 
 app.get('/', routes.index);

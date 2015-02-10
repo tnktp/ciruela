@@ -3,7 +3,8 @@
     "version": "0.0.1",
     "author": "Mauricio Mercado <mau@maumercado.com> (http://about.me/maumercado)",
     "scripts": {
-        "start": "node app.js"
+        "start": "node app.js",
+        "post-hook": "./bin/post-hook.sh"
     },
     "dependencies": {
         "express": "3.4.7",

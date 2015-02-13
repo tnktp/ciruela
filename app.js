@@ -38,9 +38,9 @@ app.use("/reports", express.static(path.join(__dirname, 'reports')));
 // development only
 if ('development' == app.get('env')) {
     app.use(express.errorHandler());
-    config = require('environments/development.json');
+    config = require('config/environments/development.json');
 } else {
-    config = require('environments/' + app.get('env') + '.json');
+    config = require('config/environments/' + app.get('env') + '.json');
 }
 
 app.get('/', routes.index);

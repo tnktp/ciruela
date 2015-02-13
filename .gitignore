@@ -1,7 +1,7 @@
 .env
 .DS_Store
-environments/development.json
-environments/test.json
+config/environments/development.json
+config/environments/test.json
 node_modules/
 *.log
 *.tar.gz

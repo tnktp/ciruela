@@ -46,8 +46,8 @@ A simple continuous integration server targeting users of Mocha under Node.js wi
 2. Configure your to & from email address and mail server
 
 ```
-    cp environments/production.json-sample environments/production.json  
-    vi environments/production.json
+    cp config/environments/production.json-sample config/environments/production.json  
+    vi config/environments/production.json
 ```
 
 3. Run ciruela

@@ -11,8 +11,28 @@ var stylus = require('stylus');
 var runner = require('lib/runner');
 var jobs = require('lib/jobs');
 
+var winston = require('winston');
+
 var app = express();
 
+winston.remove(winston.transports.Console);
+
+winston.add(winston.transports.File, {
+    level: 'info',
+    filename: './logs/app.log',
+    handleExceptions: true,
+    json: false,
+    maxsize: 5242880, //5MB
+    maxFiles: 5,
+    colorize: false
+});
+
+var olog = console.log;
+console.log = function () {
+    winston.info(colors.stripColors(arguments[0]));
+    olog.apply(console, arguments);
+}
+        
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));

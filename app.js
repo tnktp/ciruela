@@ -10,6 +10,7 @@ var path = require('path');
 var stylus = require('stylus');
 var runner = require('lib/runner');
 var jobs = require('lib/jobs');
+var fs = require('fs');
 
 var winston = require('winston');
 
@@ -32,78 +33,96 @@ console.log = function () {
     winston.info(colors.stripColors(arguments[0]));
     olog.apply(console, arguments);
 }
-        
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
-app.use(stylus.middleware({
-    debug: false,
-    src: __dirname + '/views',
-    dest: __dirname + '/public',
-    compile: function(str) {
-        return stylus(str).set('compress', true);
+var setup = function(){
+    // all environments
+    app.set('port', process.env.PORT || 3000);
+    app.set('views', path.join(__dirname, 'views'));
+    app.set('view engine', 'ejs');
+
+    app.use(stylus.middleware({
+        debug: false,
+        src: __dirname + '/views',
+        dest: __dirname + '/public',
+        compile: function(str) {
+            return stylus(str).set('compress', true);
+        }
+    }));
+
+    app.use(express.logger('dev'));
+    app.use(express.json());
+    app.use(express.urlencoded());
+    app.use(express.methodOverride());
+    app.use(app.router);
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use("/reports", express.static(path.join(__dirname, 'reports')));
+
+    // development only
+    console.log("Env", app.get('env'));
+    if ('development' == app.get('env')) {
+        app.use(express.errorHandler());
+        config = require('config/environments/development.json');
+    } else {
+        config = require('config/environments/' + app.get('env') + '.json');
     }
-}));
 
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-app.use("/reports", express.static(path.join(__dirname, 'reports')));
+    app.get('/', routes.index);
 
-// development only
-if ('development' == app.get('env')) {
-    app.use(express.errorHandler());
-    config = require('config/environments/development.json');
-} else {
-    config = require('config/environments/' + app.get('env') + '.json');
+    app.get('/job/:jobId', routes.getJob);
+
+    app.get('/projects/:projectName', routes.projectJobs);
+
+    app.get('/projects/:projectName/:branchName', routes.projectJobsbyBranch);
+
+    app.post('/', function(req, res) {
+        var data;
+        if (req.body.payload) data = JSON.parse(req.body.payload);
+        data = data || req.body;
+        branch = data.ref.split('/')[2];
+        repoUrl = data.repository.url;
+        repoName = data.repository.name;
+        organization = data.repository.organization;
+        name = process.cwd() + '/tmp/' + data.repository.name;
+        targetUrl = 'git@github.com:' + organization + '/' + repoName;
+        lastCommitInfo = data.commits[data.commits.length - 1];
+        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '.html';
+
+        target = {
+            'branch': branch,
+            'url': targetUrl,
+            'name': name,
+            'organization': organization,
+            'repoUrl': repoUrl,
+            'repoName': repoName,
+            'commit': lastCommitInfo,
+            'projectRoot': process.cwd(),
+            'report': report
+        };
+
+        console.log("Adding Job");
+        jobs.addJob(target, function(job) {
+            runner.build(target);
+            res.json(200, job);
+        });
+    });
+
+
+    http.createServer(app).listen(app.get('port'), function() {
+        console.log('ciruela server listening on port ' + app.get('port'));
+    });
+
 }
 
-app.get('/', routes.index);
-
-app.get('/job/:jobId', routes.getJob);
-
-app.get('/projects/:projectName', routes.projectJobs);
-
-app.get('/projects/:projectName/:branchName', routes.projectJobsbyBranch);
-
-app.post('/', function(req, res) {
-    var data;
-    if (req.body.payload) data = JSON.parse(req.body.payload);
-    data = data || req.body;
-    branch = data.ref.split('/')[2];
-    repoUrl = data.repository.url;
-    repoName = data.repository.name;
-    organization = data.repository.organization;
-    name = process.cwd() + '/tmp/' + data.repository.name;
-    targetUrl = 'git@github.com:' + organization + '/' + repoName;
-    lastCommitInfo = data.commits[data.commits.length - 1];
-    report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '.html';
-
-    target = {
-        'branch': branch,
-        'url': targetUrl,
-        'name': name,
-        'organization': organization,
-        'repoUrl': repoUrl,
-        'repoName': repoName,
-        'commit': lastCommitInfo,
-        'projectRoot': process.cwd(),
-        'report': report
-    };
-
-    console.log("Adding Job");
-    jobs.addJob(target, function(job) {
-        runner.build(target);
-        res.json(200, job);
-    });
-});
-
-
-http.createServer(app).listen(app.get('port'), function() {
-    console.log('ciruela server listening on port ' + app.get('port'));
+fs.exists(path.join(__dirname, 'logs/app.log'), function (exists) {
+    if (!exists) {
+        fs.mkdir('logs', function (err) {
+            if (err) console.log(err);
+            fs.writeFile('logs/app.log', "", function (err) {
+                if (err) console.log(err);
+                setup();
+            });
+        });
+    } else {
+        setup();
+    }
 });

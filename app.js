@@ -34,8 +34,10 @@ console.log = function () {
     olog.apply(console, arguments);
 }
 
-var setup = function(){
+var setup = function () {
     // all environments
+    var projectRoot = process.cwd();
+    
     app.set('port', process.env.PORT || 3000);
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'ejs');
@@ -82,11 +84,10 @@ var setup = function(){
         repoUrl = data.repository.url;
         repoName = data.repository.name;
         organization = data.repository.organization;
-        name = process.cwd() + '/tmp/' + data.repository.name;
+        name = projectRoot + '/tmp/' + repoName;
         targetUrl = 'git@github.com:' + organization + '/' + repoName;
         lastCommitInfo = data.commits[data.commits.length - 1];
-        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '.html';
-
+        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo + '.html';
         target = {
             'branch': branch,
             'url': targetUrl,
@@ -95,12 +96,12 @@ var setup = function(){
             'repoUrl': repoUrl,
             'repoName': repoName,
             'commit': lastCommitInfo,
-            'projectRoot': process.cwd(),
+            'projectRoot': projectRoot,
             'report': report
         };
 
         console.log("Adding Job");
-        jobs.addJob(target, function(job) {
+        jobs.addJob(target, function (job) {
             runner.build(target);
             res.json(200, job);
         });

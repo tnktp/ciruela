@@ -18,4 +18,5 @@ tarCommand = spawn('tar', ['-cvzf', directory + ".tar.gz", project]);
 
 tarCommand.on('close', function (code) {
   	console.log('tar exit code ' + code);
+  	process.exit(code);
 });

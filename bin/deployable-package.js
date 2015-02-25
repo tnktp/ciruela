@@ -37,9 +37,9 @@ directory = project + "-" + branch + "-" + commit + "-" + time;
 
 tarCommand = spawn('tar', ['-cvzf', directory + ".tar.gz", project]);
 
-// tarCommand.stdout.on('data', function (data) {
-//     console.log(('' + data));
-// });
+tarCommand.stdout.on('data', function (data) {
+    console.log(('' + data));
+});
 
 tarCommand.stderr.on('data', function (data) {
     console.log(('' + data));

@@ -87,7 +87,7 @@ var setup = function () {
         name = projectRoot + '/tmp/' + repoName;
         targetUrl = 'git@github.com:' + organization + '/' + repoName;
         lastCommitInfo = data.commits[data.commits.length - 1];
-        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo + '.html';
+        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
         target = {
             'branch': branch,
             'url': targetUrl,
@@ -96,7 +96,6 @@ var setup = function () {
             'repoUrl': repoUrl,
             'repoName': repoName,
             'commit': lastCommitInfo,
-            'projectRoot': projectRoot,
             'report': report
         };
 

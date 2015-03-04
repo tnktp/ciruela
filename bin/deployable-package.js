@@ -23,19 +23,20 @@ console.log = function () {
     olog.apply(console, arguments);
 }
 
-var project, branch, commit, directory, script;
+var sourceDirectory, projectName, branch, commit, file, script;
 
-project = process.env.npm_config_project;
+sourceDirectory = process.env.npm_config_source_directory;
+projectName = process.env.npm_config_project_name;
 branch = process.env.npm_config_branch;
 commit = process.env.npm_config_commit;
 
 time = new Date().getTime();
 
-console.log("Creating deployable package for " + branch + "-" + commit + "-" + time + " on " + project);
+file = projectName + "-" + branch + "-" + commit + "-" + time + ".tar.gz";
 
-directory = project + "-" + branch + "-" + commit + "-" + time;
+console.log("Creating deployable package: " + file);
 
-tarCommand = spawn('tar', ['-cvzf', directory + ".tar.gz", project]);
+tarCommand = spawn('tar', ['-cvzf', file, '-C', sourceDirectory, projectName]);
 
 tarCommand.stdout.on('data', function (data) {
     console.log(('' + data));

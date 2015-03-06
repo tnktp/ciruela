@@ -59,6 +59,7 @@ var setup = function () {
     app.use(express.static(path.join(__dirname, 'public')));
     app.use("/reports", express.static(path.join(__dirname, 'reports')));
 
+
     // development only
     console.log("Env", app.get('env'));
     if ('development' == app.get('env')) {
@@ -67,6 +68,8 @@ var setup = function () {
     } else {
         config = require('config/environments/' + app.get('env') + '.json');
     }
+    var distDirectory = config.distDirectory;
+    app.use("/", express.static(distDirectory));
 
     app.get('/', routes.index);
 
@@ -86,7 +89,8 @@ var setup = function () {
         organization = data.repository.organization;
         targetUrl = 'git@github.com:' + organization + '/' + repoName;
         lastCommitInfo = data.commits[data.commits.length - 1];
-        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
+        //report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
+        report = "http://ciruela.us-east-2.selfie.com" + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
         target = {
             'branch': branch,
             'url': targetUrl,

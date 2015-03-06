@@ -69,6 +69,7 @@ var setup = function () {
         config = require('config/environments/' + app.get('env') + '.json');
     }
     var distDirectory = config.distDirectory;
+    console.log("setting distDirectory to " + distDirectory);
     app.use("/", express.static(distDirectory));
 
     app.get('/', routes.index);

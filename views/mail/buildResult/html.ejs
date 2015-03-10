@@ -27,7 +27,9 @@
                                             <% if (failures > 0) { %>
                                                 <li><b>Tests Failures:</b> <%= failures %></li>
                                                 <h1>Failures</h1>
-                                                <%= failureTitles %>
+                                                <% failureTitles.forEach(function(fail){ %>
+                                                    <li><%= fail %></li>
+                                                <% }) %>
                                             <% } %> <br />
                                             <h1>Commit Detail</h1>
                                             <li><b>Commit:</b> <a href='<%= commit.url %>'><%= commit.id %></a></li>

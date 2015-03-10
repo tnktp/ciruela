@@ -26,6 +26,55 @@
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Author:</h3><span style="color: #555;"><%= buildResult.commit.author.name %> <a href="mailto:<%= buildResult.commit.author.email %>" style="color: #0b9"><%= buildResult.commit.author.email %></a></span></li>
 					<li><h3 style="display: inline-block;width: 150px;color: #555;">Log:</h3><span style="color: #555;"><%= buildResult.commit.message %></span></li>
 					<li><a href='<%= buildResult.report %>' style="color: #0b9"><b>Click here to see the tests coverage</b></a></span></li>
+					<% if (buildResult.failures > 0) { %>
+                        <li>
+                            <h2 style="font-size: 16px;margin-top: 0;">Errors</h2>
+                            <ul style="list-style-type: none;margin: 0;padding: 0;">
+                                <% buildResult.failureTitles.forEach(function (fail) { %>
+                                    <li style="margin: 20px 0;height: 20px;"><div style="width: 20px;height: 20px;background: #F38630;float: left;margin-right: 10px;"></div><span style="height: 20px;vertical-align: middle;display: table-cell;"><%= fail %></span></li>
+                                <% }) %>
+                            </ul>
+                        </li>
+                    <% } %>
+                    <li>
+                        <h2>JSHint</h2>
+                        <table style="margin: 0;padding: 0;border-collapse: collapse;border: 1px #000 solid;">
+                            <thead>
+                                <tr style="border: 1px; border-bottom: 1px #000 solid;">
+                                    <th style="border-right: 1px #000 solid;">
+                                        File
+                                    </th>
+                                    <th style="border-right: 1px #000 solid;">
+                                        Line
+                                    </th>
+                                    <th style="border-right: 1px #000 solid;">
+                                        Col
+                                    </th>
+                                    <th style="border-right: 1px #000 solid;">
+                                        Reason
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% buildResult.lint.forEach(function(error){ %>
+                                    <tr style="border-bottom: 1px #000 solid;">
+                                        <td style="border-right: 1px #000 solid;">
+                                            <%= error.file %>
+                                        </td>
+                                        <td style="border-right: 1px #000 solid;">
+                                            <%= error.error.line %>
+                                        </td>
+                                        <td style="border-right: 1px #000 solid;">
+                                            <%= error.error.character %>
+                                        </td>
+                                        <td style="border-right: 1px #000 solid;">
+                                            <%= error.error.reason %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </li>
 				</ul>
 			</div>
 		</div>

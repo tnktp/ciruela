@@ -24,7 +24,7 @@ console.log = function () {
     olog.apply(console, arguments);
 }
 
-var sourceDirectory, projectName, branch, commit, file, script;
+var sourceDirectory, projectName, branch, commit, file, script, distProjectBranchDirectory;
 
 sourceDirectory = process.env.npm_config_source_directory;
 projectName = process.env.npm_config_project_name;
@@ -32,22 +32,23 @@ branch = process.env.npm_config_branch;
 commit = process.env.npm_config_commit;
 distDirectory = process.env.npm_config_dist_directory;
 
-console.log("Creating dist directory: " + distDirectory);
-exec("mkdir -p " + distDirectory, function (error, stdout, stderr) { 
+
+distProjectBranchDirectory = distDirectory + "/" + projectName + "/" + branch;
+
+console.log("Creating dist/project/branch directory: " + distProjectBranchDirectory);
+exec("mkdir -p " + distProjectBranchDirectory, function (error, stdout, stderr) {
     if (error) { 
         console.log(error);
         console.log(stderr);
         callback(error);
     } else {
-        
-
         time = new Date().getTime();
 
-        file = distDirectory + "/" + projectName + "-" + branch + "-" + commit + "-" + time + ".tar.gz";
-
+        file        = distDirectory + "/" + projectName + "/" + branch + "/" + commit + "-" + time + ".tgz";
+        linkToFile  = distDirectory + "/" + projectName + "/" + branch + "/current.tgz" 
         console.log("Creating deployable package at: " + file);
 
-        tarCommand = spawn('tar', ['-cvzf', file, '-C', sourceDirectory, projectName]);
+        tarCommand = spawn('tar', ['-czf', file, '-C', sourceDirectory, projectName]);
 
         tarCommand.stdout.on('data', function (data) {
             console.log(('' + data));
@@ -59,6 +60,17 @@ exec("mkdir -p " + distDirectory, function (error, stdout, stderr) {
 
         tarCommand.on('close', function (code) {
             console.log('tar exit code ' + code);
+
+            console.log('creating soft link for ' + file + " on " + linkToFile);
+            var command = "ln -s " + file + " " + linkToFile;
+            console.log(command);
+            exec(command, function (err, stdout, stderr) {
+                console.log("finished soft link");
+                if (err) console.log(err);
+                console.log(stdout);
+                console.log(stderr);                
+            });
+
             process.exit(code);
             callback(null);
         });         

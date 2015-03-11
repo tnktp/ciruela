@@ -62,7 +62,7 @@ exec("mkdir -p " + distProjectBranchDirectory, function (error, stdout, stderr) 
             console.log('tar exit code ' + code);
 
             console.log('creating soft link for ' + file + " on " + linkToFile);
-            var command = "ln -s " + file + " " + linkToFile;
+            var command = "ln -sf " + file + " " + linkToFile;
             console.log(command);
             exec(command, function (err, stdout, stderr) {
                 console.log("finished soft link");

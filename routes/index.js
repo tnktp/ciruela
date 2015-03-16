@@ -18,7 +18,7 @@ exports.index = function(req, res){
 
 exports.projectJobs = function(req, res){
 	filter = {project: req.params.projectName};
-	
+
 	jobs.getAll(filter, function (results) {
 		res.render('projectJobs', { title: "Ciruela", results: results, projectName: req.params.projectName});
 	});
@@ -27,7 +27,7 @@ exports.projectJobs = function(req, res){
 exports.projectJobsbyBranch = function(req, res){
 
 	filter = {project: req.params.projectName, branch: req.params.branchName};
-	
+
 	jobs.getAll(filter, function (results) {
 		if (results && results.length > 0) {
 			results = results;
@@ -45,7 +45,7 @@ exports.getJob = function(req, res){
 			prevJob = null;
 			res.render('job', { title: 'Ciruela', job: job, comparison: null, comparisonKeys: null});
 		} else {
-			if (!job.failed && (job.log.passes).length > 0) {
+			if (!job.failed && job.log.stats !== undefined && job.log.stats.passes > 0) {
 				jobs.getPreviousJob(job, function (prevJob){
 					if (prevJob && prevJob.log && prevJob.log.passes.length > 0) {
 						comparison = {};
@@ -66,6 +66,6 @@ exports.getJob = function(req, res){
 				res.render('job', { title: 'Ciruela', job: job, comparison: comparison, comparisonKeys: null});
 			}
 		}
-		
+
 	});
 };

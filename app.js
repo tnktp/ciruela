@@ -37,7 +37,7 @@ console.log = function () {
 var setup = function () {
     // all environments
     var projectRoot = process.cwd();
-    
+
     app.set('port', process.env.PORT || 3000);
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'ejs');
@@ -90,8 +90,7 @@ var setup = function () {
         organization = data.repository.organization;
         targetUrl = 'git@github.com:' + organization + '/' + repoName;
         lastCommitInfo = data.commits[data.commits.length - 1];
-        //report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
-        report = "http://ciruela.us-east-2.selfie.com" + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
+        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
         target = {
             'branch': branch,
             'url': targetUrl,

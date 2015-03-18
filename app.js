@@ -34,8 +34,10 @@ console.log = function () {
     olog.apply(console, arguments);
 }
 
-var setup = function(){
+var setup = function () {
     // all environments
+    var projectRoot = process.cwd();
+
     app.set('port', process.env.PORT || 3000);
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'ejs');
@@ -57,6 +59,7 @@ var setup = function(){
     app.use(express.static(path.join(__dirname, 'public')));
     app.use("/reports", express.static(path.join(__dirname, 'reports')));
 
+
     // development only
     console.log("Env", app.get('env'));
     if ('development' == app.get('env')) {
@@ -65,6 +68,9 @@ var setup = function(){
     } else {
         config = require('config/environments/' + app.get('env') + '.json');
     }
+    var distDirectory = config.distDirectory;
+    console.log("setting distDirectory to " + distDirectory);
+    app.use("/", express.static(distDirectory));
 
     app.get('/', routes.index);
 
@@ -82,25 +88,21 @@ var setup = function(){
         repoUrl = data.repository.url;
         repoName = data.repository.name;
         organization = data.repository.organization;
-        name = process.cwd() + '/tmp/' + data.repository.name;
         targetUrl = 'git@github.com:' + organization + '/' + repoName;
         lastCommitInfo = data.commits[data.commits.length - 1];
-        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '.html';
-
+        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
         target = {
             'branch': branch,
             'url': targetUrl,
-            'name': name,
             'organization': organization,
             'repoUrl': repoUrl,
             'repoName': repoName,
             'commit': lastCommitInfo,
-            'projectRoot': process.cwd(),
             'report': report
         };
 
         console.log("Adding Job");
-        jobs.addJob(target, function(job) {
+        jobs.addJob(target, function (job) {
             runner.build(target);
             res.json(200, job);
         });

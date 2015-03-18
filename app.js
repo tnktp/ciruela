@@ -84,28 +84,33 @@ var setup = function () {
         var data;
         if (req.body.payload) data = JSON.parse(req.body.payload);
         data = data || req.body;
-        branch = data.ref.split('/')[2];
-        repoUrl = data.repository.url;
-        repoName = data.repository.name;
-        organization = data.repository.organization;
-        targetUrl = 'git@github.com:' + organization + '/' + repoName;
-        lastCommitInfo = data.commits[data.commits.length - 1];
-        report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
-        target = {
-            'branch': branch,
-            'url': targetUrl,
-            'organization': organization,
-            'repoUrl': repoUrl,
-            'repoName': repoName,
-            'commit': lastCommitInfo,
-            'report': report
-        };
+        if (!data.deleted) {
+            branch = data.ref.split('/')[2];
+            repoUrl = data.repository.url;
+            repoName = data.repository.name;
+            organization = data.repository.organization;
+            targetUrl = 'git@github.com:' + organization + '/' + repoName;
+            lastCommitInfo = data.commits[data.commits.length - 1];
 
-        console.log("Adding Job");
-        jobs.addJob(target, function (job) {
-            runner.build(target);
-            res.json(200, job);
-        });
+            report = config.server.root + ':' + config.server.port + '/reports/' + data.repository.name + '/' + lastCommitInfo.id + '.html';
+            target = {
+                'branch': branch,
+                'url': targetUrl,
+                'organization': organization,
+                'repoUrl': repoUrl,
+                'repoName': repoName,
+                'commit': lastCommitInfo,
+                'report': report
+            };
+
+            console.log("Adding Job");
+            jobs.addJob(target, function (job) {
+                runner.build(target);
+                res.json(200, job);
+            });
+        } else {
+            res.json(204, {message: "Not commit information found"});
+        }
     });
 
 

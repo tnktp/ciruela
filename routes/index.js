@@ -11,6 +11,7 @@ exports.index = function(req, res){
 	jobs.getProjects(function (results) {
 		if (results && results.length > 0) {
 			results = _.uniq(results.map(function (result) { return result.project }))
+			console.log(results);
 		}
 		res.render('index', { title: "Ciruela", results: results, projectName: undefined});
 	});

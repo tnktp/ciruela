@@ -42,6 +42,17 @@ var setup = function () {
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'ejs');
 
+    // development only
+    console.log("Env", app.get('env'));
+    if ('development' == app.get('env')) {
+        app.use(express.errorHandler());
+        config = require('config/environments/development.json');
+    } else {
+        config = require('config/environments/' + app.get('env') + '.json');
+    }
+    var distDirectory = config.distDirectory;
+    console.log("setting distDirectory to " + distDirectory);
+
     app.use(stylus.middleware({
         debug: false,
         src: __dirname + '/views',
@@ -57,19 +68,9 @@ var setup = function () {
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public')));
-    app.use("/reports", express.static(path.join(__dirname, 'reports')));
 
+    app.use("/reports", express.static(config.reportsDirectory));
 
-    // development only
-    console.log("Env", app.get('env'));
-    if ('development' == app.get('env')) {
-        app.use(express.errorHandler());
-        config = require('config/environments/development.json');
-    } else {
-        config = require('config/environments/' + app.get('env') + '.json');
-    }
-    var distDirectory = config.distDirectory;
-    console.log("setting distDirectory to " + distDirectory);
     app.use("/", express.static(distDirectory));
 
     app.get('/', routes.index);

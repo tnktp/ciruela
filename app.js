@@ -86,7 +86,8 @@ var setup = function () {
         if (req.body.payload) data = JSON.parse(req.body.payload);
         data = data || req.body;
         if (!data.deleted) {
-            branch = data.ref.split('/')[2];
+            result = data.ref.match(/^[A-z|\d]+\/[A-z|\d]+\/(.+)$/);
+            branch = result[1];
             repoUrl = data.repository.url;
             repoName = data.repository.name;
             organization = data.repository.organization;

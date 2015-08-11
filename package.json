@@ -14,7 +14,7 @@
     "ejs": "*",
     "express-namespace": "*",
     "nodemailer": "~0.5.15",
-    "email-templates": "~0.1.1",
+    "email-templates": "2.0.1",
     "mongodb": "1.4.34",
     "async": "*",
     "shell-escape": "*",
